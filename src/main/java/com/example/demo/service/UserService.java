@@ -3,7 +3,7 @@ package com.example.demo.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.mapper.UserMapper;
+import com.example.demo.mapper.*;
 import com.example.demo.domain.User;
 
 import java.util.*;
@@ -11,21 +11,25 @@ import java.util.*;
 public class UserService {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private PolicyMapper policyMapper;
+    @Autowired
+    private RoleMapper roleMapper;
 
     public User findOne(String name){
         return userMapper.findOne(name);
     }
 
     public List<User> findAll(){
-        return userMapper.findAll();
+        return roleMapper.findAll();
     }
 
     public Set<String> findRole(String name) {
-        return userMapper.findRole(name);
+        return roleMapper.findRole(name);
     }
 
     public Set<String> findPolicy(String role) {
-        return userMapper.findPolicy(role);
+        return policyMapper.findPolicy(role);
     }
 
     public void save(User user) {
@@ -34,17 +38,17 @@ public class UserService {
         Set<String> roles = user.getRole();
         for (Iterator<String> it = roles.iterator(); it.hasNext(); ) {
             String role = it.next();
-            Set<String> singlePolicy = userMapper.findPolicy(role);
+            Set<String> singlePolicy = policyMapper.findPolicy(role);
             targetPolicy.addAll(singlePolicy);
         }
        
         user.setPolicy(targetPolicy);
         userMapper.save(user);
-        userMapper.saveRole(user);
+        roleMapper.saveRole(user);
     }
 
     public void delete(User user){
         userMapper.delete(user);
-        userMapper.deleteRole(user);
+        roleMapper.deleteRole(user);
     }
  }

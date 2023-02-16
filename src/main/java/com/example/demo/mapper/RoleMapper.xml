@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.RoleMapper">
+	<select id="findAll" resultType="com.example.demo.domain.User">
+		select * from sysuser
+	</select>
+
+	<select id="findRole" resultType="string">
+		select * from sysuser where name=#{name}
+	</select>
+
+	
+	<insert id="saveRole" useGeneratedKeys="true" keyProperty="id">
+		insert ignore into sysuser(name, role) values(#{name}, #{role})
+	</insert>
+	
+
+	<delete id="deleteRole">
+		delete from sysuser where name=#{name}
+	</delete>
+</mapper>

@@ -10,7 +10,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.demo.domain.User;
-import com.example.demo.mapper.UserMapper;
+import com.example.demo.mapper.*;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,6 +21,11 @@ public class ShiroRealm extends AuthorizingRealm {
     
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private PolicyMapper policyMapper;
+    @Autowired
+    private RoleMapper roleMapper;
+
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
@@ -43,12 +48,12 @@ public class ShiroRealm extends AuthorizingRealm {
         String username  = (String) subject.getPrincipal();
         
         User targetUser = userMapper.findOne(username);
-        Set<String> targetRole = userMapper.findRole(username);
+        Set<String> targetRole = roleMapper.findRole(username);
 
         Set<String> targetPolicy = new HashSet<String>();
         for (Iterator<String> it = targetRole.iterator(); it.hasNext(); ) {
             String role = it.next();
-            Set<String> singlePolicy = userMapper.findPolicy(role);
+            Set<String> singlePolicy = policyMapper.findPolicy(role);
             targetPolicy.addAll(singlePolicy);
         }
 
