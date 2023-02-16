@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.*;
-import com.example.demo.domain.User;
+import com.example.demo.domain.*;
 
 import java.util.*;
 @Service
@@ -20,7 +20,7 @@ public class UserService {
         return userMapper.findOne(name);
     }
 
-    public List<User> findAll(){
+    public List<Role> findAll(){
         return roleMapper.findAll();
     }
 

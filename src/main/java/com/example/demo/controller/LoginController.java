@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import lombok.extern.slf4j.Slf4j;
 
 import com.example.demo.service.UserService;
-import com.example.demo.domain.User;
+import com.example.demo.domain.*;
 
 import java.util.*;
 
@@ -87,9 +87,9 @@ public class LoginController {
     @RequiresUser
     @RequiresPermissions({"admin"})
     public String showUsers(Model model) {
-        List<User> users = userService.findAll();
+        List<Role> roles = userService.findAll();
 
-        model.addAttribute("users", users);
+        model.addAttribute("users", roles);
         return "index";
     }
 
