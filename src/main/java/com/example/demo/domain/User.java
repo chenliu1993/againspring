@@ -11,6 +11,7 @@ import java.util.*;
 public class User {
     @Id
     private Long id;
+    
     private String name;
     private String password;
     // currently for convenient, one role per user

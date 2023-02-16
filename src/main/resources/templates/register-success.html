@@ -22,7 +22,7 @@
                 <h5 class="card-title">新しいユーザー新規登録成功!!!</h5>
             </div>
         </div>
-        <form th:action="@{/register-success" th:method="post" th:object="${user}">
+        <form th:action="@{/}" th:method="get" th:object="${user}">
             <div class="form-group row">
                 <table class="table table-striped">
                     <thead>

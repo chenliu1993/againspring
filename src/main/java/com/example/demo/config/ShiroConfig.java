@@ -29,10 +29,13 @@ public class ShiroConfig {
         // ** means anything at least one
         // "authc" mwans needs auth, "anon" means anonymous
         // Must have error.html in advance
+        filterChainDefinitionMap.put("/", "anon");
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/login-success", "authc");
         filterChainDefinitionMap.put("/register", "anon");
         filterChainDefinitionMap.put("/register-success", "authc");
+        filterChainDefinitionMap.put("/index", "authc");
+        filterChainDefinitionMap.put("/index/**", "authc");
         filterChainDefinitionMap.put("/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

@@ -16,6 +16,10 @@ public class UserService {
         return userMapper.findOne(name);
     }
 
+    public List<User> findAll(){
+        return userMapper.findAll();
+    }
+
     public Set<String> findRole(String name) {
         return userMapper.findRole(name);
     }
@@ -37,5 +41,10 @@ public class UserService {
         user.setPolicy(targetPolicy);
         userMapper.save(user);
         userMapper.saveRole(user);
+    }
+
+    public void delete(User user){
+        userMapper.delete(user);
+        userMapper.deleteRole(user);
     }
  }

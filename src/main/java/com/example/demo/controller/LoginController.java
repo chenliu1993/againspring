@@ -10,15 +10,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresUser;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import lombok.extern.slf4j.Slf4j;
 
 import com.example.demo.service.UserService;
 import com.example.demo.domain.User;
+
+import java.util.*;
 
 @RequestMapping
 @Slf4j
@@ -30,22 +34,22 @@ public class LoginController {
 
     private User userPlaceholder = new User();
 
-    @GetMapping("/")
+    @GetMapping
     @RequiresGuest
     public String translate(Model model) {
         User user = new User();
         model.addAttribute(user);
-        return "/login";
+        return "login";
     }
 
-    @RequiresPermissions({"admin","readwrite"})
+   
     @RequiresUser
-    @GetMapping("/login-success")
+    @GetMapping("login-success")
     public String loginSuccess() {
-        return "/login-success";
+        return "login-success";
     }
 
-    @PostMapping("/login")
+    @PostMapping("login")
     @RequiresGuest
     public String login(@ModelAttribute("user") @Validated User user, Model model) {
         log.debug("get user "+user.getName());
@@ -59,25 +63,43 @@ public class LoginController {
         } catch(Exception e) {
             // We are not facing too much errors
             e.printStackTrace();
-            return "redirect:/register";
+            return "register";
         }
-        return "redirect:/login-success";
+        return "login-success";
     }
 
-    @PostMapping("/register")
+    @PostMapping("register")
     @RequiresGuest
     public String register(@ModelAttribute("user") @Validated User user, Model model) {
-        log.debug("create new user");
         userService.save(user);
         // A better way to do is?
         userPlaceholder = user;
-        return "redirect:/register-success";
+        return "register-success";
     }
 
-    @GetMapping("/register-success")
+    @GetMapping("register-success")
     @RequiresUser
     public String afterRegister(Model model) {
         model.addAttribute(userPlaceholder);
-        return "/register-success";
+        return "register-success";
     }
+
+    @GetMapping("index")
+    @RequiresUser
+    @RequiresPermissions({"admin"})
+    public String showUsers(Model model) {
+        List<User> users = userService.findAll();
+
+        model.addAttribute("users", users);
+        return "index";
+    }
+
+    @RequiresUser
+    @RequiresPermissions({"admin"})
+	@DeleteMapping("index/{name}")
+	public String delete(@PathVariable String name) {
+        User user = userService.findOne(name);
+		userService.delete(user);
+		return "redirect:/index";
+	}
 }

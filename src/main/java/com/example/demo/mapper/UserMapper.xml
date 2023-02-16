@@ -5,6 +5,10 @@
 		select * from userinfo where name=#{name}
 	</select>
 
+	<select id="findAll" resultType="com.example.demo.domain.User">
+		select * from sysuser
+	</select>
+
 	<select id="findRole" resultType="string">
 		select * from sysuser where name=#{name}
 	</select>
@@ -16,7 +20,7 @@
 	<insert id="save" useGeneratedKeys="true" keyProperty="id">
 		insert ignore into userinfo(name, password) values(#{name},#{password})
 	</insert>
-	<insert id="saveRole">
+	<insert id="saveRole" useGeneratedKeys="true" keyProperty="id">
 		insert ignore into sysuser(name, role) values(#{name}, #{role})
 	</insert>
 	
@@ -25,6 +29,10 @@
 	</update>
 	
 	<delete id="delete">
-		delete from post where id = #{id},name=#{name}
+		delete from userinfo where name=#{name}
+	</delete>
+
+	<delete id="deleteRole">
+		delete from sysuser where name=#{name}
 	</delete>
 </mapper>
