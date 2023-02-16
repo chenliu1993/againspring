@@ -1,48 +1,51 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/css/bootstrap.min.css">
-        <title>ユーザーログイン</title>
-    </head>
-    <body>
-        <nav class="navbar navbar-inverse">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="/login">ユーザーログインデモ</a>
-                </div>
-            </div>
-        </nav>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <title>ユーザーログイン</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
         <div class="container">
-            <div class="card card-primary mb-3">
-                <div class="card-header">
-                    <h5 class="card-title">ユーザーログイン</h5>
-                </div>
-                <div class="card-body">
-                    <form th:action="@{/login}" th:method="post" th:object="${user}">
-                        <div class="form-group row">
-                            <Label class="col-md-2 control-label">ユーザー名前</Label>
-                            <div class="col-md-10">
-                                <input class="form-control" type="text" th:field="*{name}">
-                                <!-- <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>" -->
-                            </div>
-                            <div class="col-md-10">
-                                <input class="form-control" type="text" th:field="*{password}">
-                                <!-- <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>" -->
-                            </div>
-                            <table class="table table-striped" th:if="${posts.size()}">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/login">ユーザーログインデモ</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="card card-primary mb-3">
+            <div class="card-header">
+                <h5 class="card-title">ユーザーログイン</h5>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/login}" th:method="post" th:object="${user}">
+                    <div class="form-group row">
+                        <Label class="col-md-2 control-label">ユーザー名前</Label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="text" th:field="*{name}">
+                            <!-- <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>" -->
+                        </div>
+                        <div class="col-md-10">
+                            <input class="form-control" type="text" th:field="*{password}">
+                            <!-- <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>" -->
+                        </div>
+                        <table class="table table-striped" th:if="${posts.size()}">
                             <thead>
                                 <tr>
                                     <button class="btn btn-primary">ログイン</button>
                                     <button class="btn btn-primary">新規登録</button>
                                 </tr>
                             </thead>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
-        <script src="/js/bootstrap.min.js"></script>
-    </body>
+    </div>
+    <script src="/js/bootstrap.min.js"></script>
+</body>
+
 </html>
