@@ -30,10 +30,11 @@
                             <!-- <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>" -->
                         </div>
                         <div class="col-md-10">
+                            <Label class="col-md-2 control-label">ユーザーパスワード</Label>
                             <input class="form-control" type="text" th:field="*{password}">
                             <!-- <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>" -->
                         </div>
-                        <table class="table table-striped" th:if="${posts.size()}">
+                        <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <button class="btn btn-primary">ログイン</button>
