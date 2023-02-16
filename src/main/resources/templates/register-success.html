@@ -22,14 +22,21 @@
                 <h5 class="card-title">新しいユーザー新規登録成功!!!</h5>
             </div>
         </div>
-        <table class="table table-striped">
-            <thead>
-                <tr th:object="${user}">
-                    <td style="width: 50%">ユーザー名前</td>
-                    <td style="width: 50%" th:text="*{name}"></td>
-                </tr>
-            </thead>
-        </table>
+        <form th:action="@{/register-success" th:method="post" th:object="${user}">
+            <div class="form-group row">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <td style="width: 50%">ユーザー名前</td>
+                            <td style="width: 50%" th:text="*{name}"></td>
+                        </tr>
+                        <tr>
+                            <button class="btn btn-primary">ログインヘ</button>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </form>
     </div>
     <script src="/js/bootstrap.min.js"></script>
 </body>

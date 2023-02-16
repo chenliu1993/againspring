@@ -28,12 +28,14 @@ public class LoginController {
     @Autowired
     UserService userService;
 
+    private User userPlaceholder = new User();
+
     @GetMapping("/")
     @RequiresGuest
     public String translate(Model model) {
         User user = new User();
         model.addAttribute(user);
-        return "login";
+        return "/login";
     }
 
     @RequiresPermissions({"admin","readwrite"})
@@ -67,12 +69,15 @@ public class LoginController {
     public String register(@ModelAttribute("user") @Validated User user, Model model) {
         log.debug("create new user");
         userService.save(user);
+        // A better way to do is?
+        userPlaceholder = user;
         return "redirect:/register-success";
     }
 
     @GetMapping("/register-success")
     @RequiresUser
-    public String afterRegister(@ModelAttribute("user") User user, Model model) {
-        return "/login";
+    public String afterRegister(Model model) {
+        model.addAttribute(userPlaceholder);
+        return "/register-success";
     }
 }
