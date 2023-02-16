@@ -17,6 +17,7 @@
 		<java.version>11</java.version>
 		<mysql.connector.version>8.0.32</mysql.connector.version>
 		<shiro.spring.version>1.11.0</shiro.spring.version>
+		<lombok.version>1.18.26</lombok.version>
 	</properties>
 	<dependencies>
         <dependency>
@@ -60,8 +61,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-			<scope>compile</scope>
+			<version>${lombok.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

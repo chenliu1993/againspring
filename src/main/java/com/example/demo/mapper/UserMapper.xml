@@ -16,6 +16,9 @@
 	<insert id="save" useGeneratedKeys="true" keyProperty="id">
 		insert ignore into userinfo(name, password) values(#{name},#{password})
 	</insert>
+	<insert id="saveRole">
+		insert ignore into sysuser(name, role) values(#{name}, #{role})
+	</insert>
 	
 	<update id="update">
 		update userinfo set name=#{name},password=#{password} where id=#{id}

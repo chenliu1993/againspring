@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Repository;
 
 import lombok.Data;
-
+import java.util.*;
 
 @Data
 @Repository
@@ -14,7 +14,6 @@ public class User {
     private String name;
     private String password;
     // currently for convenient, one role per user
-    private String role;
-    private String policy;
-
+    private Set<String> role;
+    private Set<String> policy;
 }

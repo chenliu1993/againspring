@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <title>ユーザー新規登録</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/register-success">新しいユーザー新規登録成功</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="card card-primary mb-3">
+            <div class="card-header">
+                <h5 class="card-title">新しいユーザー新規登録成功!!!</h5>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr th:object="${user}">
+                    <td style="width: 50%">ユーザー名前</td>
+                    <td style="width: 50%" th:text="*{name}"></td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <script src="/js/bootstrap.min.js"></script>
+</body>
+
+</html>

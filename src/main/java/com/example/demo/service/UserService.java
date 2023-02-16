@@ -4,8 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.UserMapper;
-import com.example.demo.domain.User;;
+import com.example.demo.domain.User;
 
+import java.util.*;
 @Service
 public class UserService {
     @Autowired
@@ -15,11 +16,26 @@ public class UserService {
         return userMapper.findOne(name);
     }
 
-    public String findRole(String name) {
+    public Set<String> findRole(String name) {
         return userMapper.findRole(name);
     }
 
-    public String findPolicy(String role) {
+    public Set<String> findPolicy(String role) {
         return userMapper.findPolicy(role);
+    }
+
+    public void save(User user) {
+
+        Set<String> targetPolicy = new HashSet<String>();
+        Set<String> roles = user.getRole();
+        for (Iterator<String> it = roles.iterator(); it.hasNext(); ) {
+            String role = it.next();
+            Set<String> singlePolicy = userMapper.findPolicy(role);
+            targetPolicy.addAll(singlePolicy);
+        }
+       
+        user.setPolicy(targetPolicy);
+        userMapper.save(user);
+        userMapper.saveRole(user);
     }
  }

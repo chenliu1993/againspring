@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <title>新規登録</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/registeration">ユーザー新規登録</a>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="card card-primary mb-3">
+                <div class="card-header">
+                    <h5 class="card-title">ユーザー新規登録</h5>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/register}" th:method="post" th:object="${user}">
+                        <div class="form-group row">
+                            <Label class="col-md-2 control-label">ユーザー名前</Label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" th:field="*{name}">
+                                <!-- <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>" -->
+                            </div>
+                            <div class="col-md-10">
+                                <Label class="col-md-5 control-label">ユーザーパスワード</Label>
+                                <input class="form-control" type="text" th:field="*{password}">
+                                <!-- <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>" -->
+                            </div>
+                            <div class="col-md-10">
+                                <Label class="col-md-5 control-label">ユーザーロール</Label>
+                                <input class="form-control" type="text" th:field="*{role}">
+                                <!-- <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>" -->
+                            </div>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <button class="btn btn-primary">create</button>
+                                        <!-- <button class="btn btn-primary">新規登録</button> -->
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="/js/bootstrap.min.js"></script>
+    </body>
+</html>
