@@ -9,6 +9,6 @@ import com.example.demo.domain.*;
 public interface RoleMapper {
     List<Role> findAll();
     Set<String> findRole(String name);
-    void saveRole(User user);
-    void deleteRole(User user);
+    void saveRole(Role role);
+    void deleteRole(Role role);
 }

@@ -69,8 +69,15 @@ public class LoginController {
 
     @PostMapping("register")
     @RequiresGuest
-    public String register(@ModelAttribute("user") @Validated User user, Model model) {
+    public String register(@ModelAttribute("user") @Validated UserEntity userEntity, Model model) {
+        User user = new User();
+        user.setName(userEntity.getName());
+        user.setPassword(userEntity.getPassword());
+        Role role = new Role();
+        role.setName(userEntity.getName());
+        role.setRole(userEntity.getRole());
         userService.save(user);
+        userService.saveRole(role);
         // A better way to do is?
         userPlaceholder = user;
         return "register-success";
@@ -98,7 +105,12 @@ public class LoginController {
 	@PostMapping("index/{name}")
 	public String delete(@PathVariable String name) {
         User user = userService.findOne(name);
+        Set<String> roles = userService.findRole(name);
+        Role role = new Role();
+        role.setName(name);
+        role.setRole(roles);
 		userService.delete(user);
+        userService.deleteRole(role);
 		return "redirect:/index";
 	}
 }

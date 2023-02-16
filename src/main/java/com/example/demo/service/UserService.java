@@ -26,29 +26,25 @@ public class UserService {
 
     public Set<String> findRole(String name) {
         return roleMapper.findRole(name);
-    }
+    }    
 
     public Set<String> findPolicy(String role) {
         return policyMapper.findPolicy(role);
     }
 
     public void save(User user) {
-
-        Set<String> targetPolicy = new HashSet<String>();
-        Set<String> roles = user.getRole();
-        for (Iterator<String> it = roles.iterator(); it.hasNext(); ) {
-            String role = it.next();
-            Set<String> singlePolicy = policyMapper.findPolicy(role);
-            targetPolicy.addAll(singlePolicy);
-        }
-       
-        user.setPolicy(targetPolicy);
         userMapper.save(user);
-        roleMapper.saveRole(user);
+    }
+
+    public void saveRole(Role role) {
+        roleMapper.saveRole(role);
     }
 
     public void delete(User user){
         userMapper.delete(user);
-        roleMapper.deleteRole(user);
+    }
+
+    public void deleteRole(Role role){
+        roleMapper.deleteRole(role);    
     }
  }
