@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -96,7 +95,7 @@ public class LoginController {
 
     @RequiresUser
     @RequiresPermissions({"admin"})
-	@DeleteMapping("index/{name}")
+	@PostMapping("index/{name}")
 	public String delete(@PathVariable String name) {
         User user = userService.findOne(name);
 		userService.delete(user);
