@@ -24,7 +24,7 @@ public class ShiroRealm extends AuthorizingRealm {
         User targetUser = userMapper.findOne(username);
        
         if(targetUser==null){
-            throw new UnknownAccountException("No such user stored");
+            throw new UnknownAccountException("No such user stored "+username);
         }
         log.info("find user "+targetUser.getName());
 
@@ -34,8 +34,23 @@ public class ShiroRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        log.info("do nothing here");
-        return null;
+        String username = (String) authenticationToken.getPrincipal();
+        
+        User targetUser = userMapper.findOne(username);
+        String targetRole = userMapper.findRole(username);
+        String targetPolicy = userMapper.findPolicy(targetRole);
+        if(targetUser==null){
+            throw new UnknownAccountException("No such user stored "+username);
+        }
+        log.info("find user "+targetUser.getName());
+
+        targetUser.setRole(targetRole);
+        targetUser.setPolicy(targetPolicy);
+
+        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+		authorizationInfo.setRoles(targetUser.getRole());
+		authorizationInfo.setStringPermissions(targetUser.getPolicy());
+		return authorizationInfo;
     }
 
 }

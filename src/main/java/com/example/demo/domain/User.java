@@ -13,4 +13,8 @@ public class User {
     private Long id;
     private String name;
     private String password;
+    // currently for convenient, one role per user
+    private String role;
+    private String policy;
+
 }

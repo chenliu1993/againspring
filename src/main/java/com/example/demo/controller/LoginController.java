@@ -26,10 +26,15 @@ public class LoginController {
     UserService userService;
 
     @GetMapping("/")
-    public String login(Model model) {
+    public String translate(Model model) {
         User user = new User();
         model.addAttribute(user);
         return "login";
+    }
+
+    @GetMapping("/login-success")
+    public String loginSuccess() {
+        return "/login-success";
     }
 
     @PostMapping("/login")

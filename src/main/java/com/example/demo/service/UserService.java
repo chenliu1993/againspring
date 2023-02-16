@@ -14,4 +14,12 @@ public class UserService {
     public User findOne(String name){
         return userMapper.findOne(name);
     }
+
+    public String findRole(String name) {
+        return userMapper.findRole(name);
+    }
+
+    public String findPolicy(String role) {
+        return userMapper.findPolicy(role);
+    }
  }

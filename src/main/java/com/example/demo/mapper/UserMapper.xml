@@ -4,6 +4,14 @@
 	<select id="findOne" resultType="com.example.demo.domain.User">
 		select * from userinfo where name=#{name}
 	</select>
+
+	<select id="findRole" resultType="string">
+		select * from sysuser where name=#{name}
+	</select>
+
+	<select id="findPolicy" resultType="string">
+		select * from permission where role=#{role}
+	</select>
 	
 	<insert id="save" useGeneratedKeys="true" keyProperty="id">
 		insert ignore into userinfo(name, password) values(#{name},#{password})
