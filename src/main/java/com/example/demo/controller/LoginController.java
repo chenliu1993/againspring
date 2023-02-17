@@ -27,7 +27,7 @@ import java.util.*;
 @Slf4j
 @Controller
 public class LoginController {
-    
+
     @Autowired
     UserService userService;
 
@@ -41,7 +41,6 @@ public class LoginController {
         return "login";
     }
 
-   
     @RequiresUser
     @GetMapping("login-success")
     public String loginSuccess() {
@@ -51,22 +50,22 @@ public class LoginController {
     @PostMapping("login")
     @RequiresGuest
     public String login(@ModelAttribute("user") @Validated User user, Model model) {
-        log.debug("get user "+user.getName());
+        log.debug("get user " + user.getName());
         Subject currentUser = SecurityUtils.getSubject();
 
         // add this line then any user can be logined in
         // if(!currentUser.isAuthenticated()){
-            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getName(), user.getPassword());
-            usernamePasswordToken.setRememberMe(true);
-            try {
-                currentUser.login(usernamePasswordToken);
-                log.debug("user "+user.getName()+" login, yes");
-            } catch(Exception e) {
-                // We are not facing too much errors
-                // e.printStackTrace();
-                // register then, anybody can register
-                return "register";
-            }
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getName(), user.getPassword());
+        usernamePasswordToken.setRememberMe(true);
+        try {
+            currentUser.login(usernamePasswordToken);
+            log.debug("user " + user.getName() + " login, yes");
+        } catch (Exception e) {
+            // We are not facing too much errors
+            // e.printStackTrace();
+            // register then, anybody can register
+            return "register";
+        }
         // }
         return "login-success";
     }
@@ -74,9 +73,9 @@ public class LoginController {
     // @GetMapping("register")
     // @RequiresGuest
     // public String bindEntity(Model model) {
-    //     UserEntity userEntity = new UserEntity();
-    //     model.addAttribute("userEntity", userEntity);
-    //     return "register";
+    // UserEntity userEntity = new UserEntity();
+    // model.addAttribute("userEntity", userEntity);
+    // return "register";
     // }
 
     @PostMapping("register")
@@ -84,12 +83,12 @@ public class LoginController {
     public String register(@ModelAttribute("user") @Validated UserEntity userEntity, Model model) {
         // needs to reconstruct a new user and role to store back into db
         User user = new User();
-        log.info(userEntity.getName()+" "+userEntity.getPassword());
+        log.info(userEntity.getName() + " " + userEntity.getPassword());
         user.setName(userEntity.getName());
         user.setPassword(userEntity.getPassword());
-        
+
         Role role = new Role();
-        log.info(userEntity.getName()+" "+userEntity.getRole());
+        log.info(userEntity.getName() + " " + userEntity.getRole());
         role.setName(userEntity.getName());
         role.setRole(userEntity.getRole());
 
@@ -109,7 +108,7 @@ public class LoginController {
 
     @GetMapping("index")
     @RequiresUser
-    @RequiresPermissions({"admin"})
+    @RequiresPermissions({ "all" })
     public String showUsers(Model model) {
         List<Role> roles = userService.findAll();
         model.addAttribute("users", roles);
@@ -117,16 +116,16 @@ public class LoginController {
     }
 
     @RequiresUser
-    @RequiresPermissions({"admin"})
-	@PostMapping("index/{name}")
-	public String delete(@PathVariable String name) {
+    @RequiresPermissions({ "all" })
+    @PostMapping("index/{name}")
+    public String delete(@PathVariable String name) {
         User user = userService.findOne(name);
         String roles = userService.findRole(name);
         Role role = new Role();
         role.setName(name);
         role.setRole(roles);
-		userService.delete(user);
+        userService.delete(user);
         userService.deleteRole(role);
-		return "redirect:/index";
-	}
+        return "redirect:/index";
+    }
 }
