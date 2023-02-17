@@ -40,9 +40,9 @@ public class UserService {
     }
 
     public void saveRole(Role role) throws RuntimeException {
-        String policy = policyMapper.findPolicy(role.getName());
+        String policy = policyMapper.findPolicy(role.getRole());
         if(policy==null){
-            throw new RuntimeException(String.format("the role %s doesn't exist", role.getName()));
+            throw new RuntimeException(String.format("the role %s for user %s doesn't exist", role.getRole(),role.getName()));
         }
         roleMapper.saveRole(role);
     }
