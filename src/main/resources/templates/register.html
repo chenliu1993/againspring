@@ -5,6 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/css/bootstrap.min.css">
         <title>新規登録</title>
+
+        <script>
+            function showAlert() {
+              alert("Hello world!");
+            }
+        </script>
     </head>
     <body>
         <nav class="navbar navbar-inverse">
@@ -35,7 +41,7 @@
                             <div class="col-md-10">
                                 <Label class="col-md-5 control-label">ユーザーロール</Label>
                                 <input class="form-control" type="text" th:field="*{role}">
-                                <!-- <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>" -->
+                                <!-- <div class="text-danger" th:if="${#fields.hasErrors('role')}" th:errors="*{password}"></div>" -->
                             </div>
                             <table class="table table-striped">
                                 <thead>

@@ -106,7 +106,11 @@ public class LoginController {
         role.setRole(userEntity.getRole());
 
         userService.save(user);
-        userService.saveRole(role);
+        try {
+            userService.saveRole(role);
+        } catch(RuntimeException e){
+            return e.toString();
+        }
         // A better way to do is?
         userPlaceholder = user;
         return "register-success";
