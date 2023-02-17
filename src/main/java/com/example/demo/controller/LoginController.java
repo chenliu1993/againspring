@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.validation.BindingResult;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -49,8 +50,11 @@ public class LoginController {
 
     @PostMapping("login")
     @RequiresGuest
-    public String login(@ModelAttribute("user") @Validated User user, Model model) {
+    public String login(@ModelAttribute("user") @Validated User user, BindingResult result, Model model) {
         log.debug("get user " + user.getName());
+        if(result.hasErrors()){
+            return "login";
+        }
         Subject currentUser = SecurityUtils.getSubject();
 
         // add this line then any user can be logined in

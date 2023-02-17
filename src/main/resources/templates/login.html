@@ -32,14 +32,14 @@
                             <div class="col-md-10">
                                 <Label class="col-md-2 control-label">ユーザー名前</Label>
                                 <input class="form-control" type="text" th:field="*{name}" placeholder="貴方の名前">
-                                <!-- <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>" -->
+                                <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                             </div>
                             <div class="col-md-10">
                                 <Label class="col-md-5 control-label">ユーザーパスワード</Label>
                                 <input class="form-control" type="password" th:field="*{password}" placeholder="パスワード">
-                                <!-- <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>" -->
+                                <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
                             </div>
-                            <table class="table table-striped">
+                            <table class="table table-striped">z
                                 <thead>
                                     <tr>
                                         <button class="btn btn-primary">ログイン</button>
