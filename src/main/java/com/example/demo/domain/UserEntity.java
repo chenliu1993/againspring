@@ -1,19 +1,15 @@
 package com.example.demo.domain;
 
-import org.springframework.data.annotation.Id;
+import lombok.Data;
 import org.springframework.stereotype.Repository;
 
-import lombok.Data;
-// import java.util.*;
 
 @Data
 @Repository
-public class User {
-    @Id
-    private Long id;
-    
+public class UserEntity {
     private String name;
     private String password;
+    // currently for convenient, one role per user
+    // Assume this is seperated by ,
     private String role;
-    // 1, root, root
 }

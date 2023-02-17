@@ -54,23 +54,47 @@ public class LoginController {
         log.debug("get user "+user.getName());
         Subject currentUser = SecurityUtils.getSubject();
 
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getName(), user.getPassword());
-        usernamePasswordToken.setRememberMe(true);
-        try {
-            currentUser.login(usernamePasswordToken);
-            log.debug("user "+user.getName()+" login, yes");
-        } catch(Exception e) {
-            // We are not facing too much errors
-            e.printStackTrace();
-            return "register";
-        }
+        // add this line then any user can be logined in
+        // if(!currentUser.isAuthenticated()){
+            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getName(), user.getPassword());
+            usernamePasswordToken.setRememberMe(true);
+            try {
+                currentUser.login(usernamePasswordToken);
+                log.debug("user "+user.getName()+" login, yes");
+            } catch(Exception e) {
+                // We are not facing too much errors
+                // e.printStackTrace();
+                // register then, anybody can register
+                return "register";
+            }
+        // }
         return "login-success";
     }
 
+    // @GetMapping("register")
+    // @RequiresGuest
+    // public String bindEntity(Model model) {
+    //     UserEntity userEntity = new UserEntity();
+    //     model.addAttribute("userEntity", userEntity);
+    //     return "register";
+    // }
+
     @PostMapping("register")
     @RequiresGuest
-    public String register(@ModelAttribute("user") @Validated User user, Model model) {
+    public String register(@ModelAttribute("user") @Validated UserEntity userEntity, Model model) {
+        // needs to reconstruct a new user and role to store back into db
+        User user = new User();
+        log.info(userEntity.getName()+" "+userEntity.getPassword());
+        user.setName(userEntity.getName());
+        user.setPassword(userEntity.getPassword());
+        
+        Role role = new Role();
+        log.info(userEntity.getName()+" "+userEntity.getRole());
+        role.setName(userEntity.getName());
+        role.setRole(userEntity.getRole());
+
         userService.save(user);
+        userService.saveRole(role);
         // A better way to do is?
         userPlaceholder = user;
         return "register-success";
@@ -79,7 +103,7 @@ public class LoginController {
     @GetMapping("register-success")
     @RequiresUser
     public String afterRegister(Model model) {
-        model.addAttribute(userPlaceholder);
+        model.addAttribute("user", userPlaceholder);
         return "register-success";
     }
 
@@ -88,7 +112,6 @@ public class LoginController {
     @RequiresPermissions({"admin"})
     public String showUsers(Model model) {
         List<Role> roles = userService.findAll();
-
         model.addAttribute("users", roles);
         return "index";
     }
@@ -98,7 +121,12 @@ public class LoginController {
 	@PostMapping("index/{name}")
 	public String delete(@PathVariable String name) {
         User user = userService.findOne(name);
+        String roles = userService.findRole(name);
+        Role role = new Role();
+        role.setName(name);
+        role.setRole(roles);
 		userService.delete(user);
+        userService.deleteRole(role);
 		return "redirect:/index";
 	}
 }
