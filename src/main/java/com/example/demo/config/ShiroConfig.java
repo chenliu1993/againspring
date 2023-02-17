@@ -11,7 +11,6 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-
 import java.util.LinkedHashMap;
 
 @Configuration
@@ -39,8 +38,6 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
-       
-
 
         return shiroFilterFactoryBean;
     }

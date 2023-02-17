@@ -18,7 +18,7 @@ import java.util.*;
 
 @Slf4j
 public class ShiroRealm extends AuthorizingRealm {
-    
+
     @Autowired
     private UserMapper userMapper;
     @Autowired
@@ -26,47 +26,47 @@ public class ShiroRealm extends AuthorizingRealm {
     @Autowired
     private RoleMapper roleMapper;
 
-
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
+            throws AuthenticationException {
         String username = (String) authenticationToken.getPrincipal();
-        
-        User targetUser = userMapper.findOne(username);
-       
-        if(targetUser==null){
-            throw new UnknownAccountException("No such user stored "+username);
-        }
-        log.info("find user "+targetUser.getName());
 
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(targetUser.getName(), targetUser.getPassword(), getName());
+        User targetUser = userMapper.findOne(username);
+
+        if (targetUser == null) {
+            throw new UnknownAccountException("No such user stored " + username);
+        }
+        log.info("find user " + targetUser.getName());
+
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(targetUser.getName(), targetUser.getPassword(),
+                getName());
         return info;
     }
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         Subject subject = SecurityUtils.getSubject();
-        String username  = (String) subject.getPrincipal();
-        
+        String username = (String) subject.getPrincipal();
+
         User targetUser = userMapper.findOne(username);
         Set<String> targetRole = new HashSet<String>(Arrays.asList(roleMapper.findRole(username).split(",", -1)));
 
         Set<String> targetPolicy = new HashSet<String>();
-        for (Iterator<String> it = targetRole.iterator(); it.hasNext(); ) {
+        for (Iterator<String> it = targetRole.iterator(); it.hasNext();) {
             String role = it.next();
             Set<String> singlePolicy = new HashSet<String>(Arrays.asList(policyMapper.findPolicy(role)));
             targetPolicy.addAll(singlePolicy);
         }
 
-       
-        if(targetUser==null){
-            throw new UnknownAccountException("No such user stored "+username);
+        if (targetUser == null) {
+            throw new UnknownAccountException("No such user stored " + username);
         }
-        log.info("find user "+targetUser.getName());
+        log.info("find user " + targetUser.getName());
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-		authorizationInfo.setRoles(targetRole);
-		authorizationInfo.setStringPermissions(targetPolicy);
-		return authorizationInfo;
+        authorizationInfo.setRoles(targetRole);
+        authorizationInfo.setStringPermissions(targetPolicy);
+        return authorizationInfo;
     }
 
 }
