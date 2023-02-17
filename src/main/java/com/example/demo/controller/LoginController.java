@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import lombok.extern.slf4j.Slf4j;
 
 import com.example.demo.service.UserService;
+import com.example.demo.service.UserRedisService;
 import com.example.demo.domain.*;
 
 import java.util.*;
@@ -31,6 +32,9 @@ public class LoginController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    UserRedisService userRedisService;
 
     private User userPlaceholder = new User();
 
@@ -106,6 +110,8 @@ public class LoginController {
         role.setRole(userEntity.getRole());
 
         userService.save(user);
+
+        userRedisService.set(user.getName(), role.getRole());
         try {
             userService.saveRole(role);
         } catch(RuntimeException e){
