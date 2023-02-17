@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylysheet" href="/css/signin.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylysheet" href="/css/signin.css" type="text/css">
     <title>ユーザーログイン</title>
 </head>
 
@@ -39,7 +39,7 @@
                                 <input class="form-control" type="password" th:field="*{password}" placeholder="パスワード">
                                 <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
                             </div>
-                            <table class="table table-striped">z
+                            <table class="table table-striped">
                                 <thead>
                                     <tr>
                                         <button class="btn btn-primary">ログイン</button>

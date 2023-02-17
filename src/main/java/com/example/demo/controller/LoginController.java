@@ -34,18 +34,27 @@ public class LoginController {
 
     private User userPlaceholder = new User();
 
+
+   
     @GetMapping
     @RequiresGuest
     public String translate(Model model) {
         User user = new User();
         model.addAttribute(user);
-        return "login";
+        return "redirect:/login";
     }
 
     @RequiresUser
     @GetMapping("login-success")
     public String loginSuccess() {
         return "login-success";
+    }
+
+     // Adding this then "Request Method GET NOt Allowd" goes away
+    @GetMapping("login")
+    @RequiresGuest
+    public String preCheckLogin(@ModelAttribute("user") User user, Model model) {
+        return "login";
     }
 
     @PostMapping("login")
@@ -71,7 +80,7 @@ public class LoginController {
             return "register";
         }
         // }
-        return "login-success";
+        return "redirect:/login-success";
     }
 
     // @GetMapping("register")
@@ -97,7 +106,11 @@ public class LoginController {
         role.setRole(userEntity.getRole());
 
         userService.save(user);
-        userService.saveRole(role);
+        try {
+            userService.saveRole(role);
+        } catch(RuntimeException e){
+            return e.toString();
+        }
         // A better way to do is?
         userPlaceholder = user;
         return "register-success";
