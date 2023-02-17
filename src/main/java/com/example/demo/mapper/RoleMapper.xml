@@ -11,7 +11,7 @@
 	</select>
 
 	<select id="findRole" resultType="string">
-		select * from sysuser where name=#{name}
+		select role from sysuser where name=#{name}
 	</select>
 
 	

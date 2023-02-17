@@ -48,12 +48,12 @@ public class ShiroRealm extends AuthorizingRealm {
         String username  = (String) subject.getPrincipal();
         
         User targetUser = userMapper.findOne(username);
-        Set<String> targetRole = roleMapper.findRole(username);
+        Set<String> targetRole = new HashSet<String>(Arrays.asList(roleMapper.findRole(username).split(",", -1)));
 
         Set<String> targetPolicy = new HashSet<String>();
         for (Iterator<String> it = targetRole.iterator(); it.hasNext(); ) {
             String role = it.next();
-            Set<String> singlePolicy = policyMapper.findPolicy(role);
+            Set<String> singlePolicy = new HashSet<String>(Arrays.asList(policyMapper.findPolicy(role)));
             targetPolicy.addAll(singlePolicy);
         }
 
@@ -63,12 +63,9 @@ public class ShiroRealm extends AuthorizingRealm {
         }
         log.info("find user "+targetUser.getName());
 
-        targetUser.setRole(targetRole);
-        targetUser.setPolicy(targetPolicy);
-
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-		authorizationInfo.setRoles(targetUser.getRole());
-		authorizationInfo.setStringPermissions(targetUser.getPolicy());
+		authorizationInfo.setRoles(targetRole);
+		authorizationInfo.setStringPermissions(targetPolicy);
 		return authorizationInfo;
     }
 

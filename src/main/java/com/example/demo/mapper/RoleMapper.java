@@ -7,8 +7,8 @@ import com.example.demo.domain.*;
 @Repository
 @Mapper
 public interface RoleMapper {
-    List<Role> findAll();
-    Set<String> findRole(String name);
+    public List<Role> findAll();
+    String findRole(String name);
     void saveRole(Role role);
     void deleteRole(Role role);
 }

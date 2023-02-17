@@ -27,11 +27,11 @@ public class UserService {
         return roleMapper.findAll();
     }
 
-    public Set<String> findRole(String name) {
+    public String findRole(String name) {
         return roleMapper.findRole(name);
     }    
 
-    public Set<String> findPolicy(String role) {
+    public String findPolicy(String role) {
         return policyMapper.findPolicy(role);
     }
 
