@@ -43,8 +43,9 @@ public class UserService {
         String policy = policyMapper.findPolicy(role.getRole());
         if(policy==null){
             throw new RuntimeException(String.format("the role %s for user %s doesn't exist", role.getRole(),role.getName()));
+        }else{
+            roleMapper.saveRole(role);
         }
-        roleMapper.saveRole(role);
     }
 
     public void delete(User user){
