@@ -54,28 +54,33 @@ public class LoginController {
         log.debug("get user "+user.getName());
         Subject currentUser = SecurityUtils.getSubject();
 
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getName(), user.getPassword());
-        usernamePasswordToken.setRememberMe(true);
-        try {
-            currentUser.login(usernamePasswordToken);
-            log.debug("user "+user.getName()+" login, yes");
-        } catch(Exception e) {
-            // We are not facing too much errors
-            e.printStackTrace();
-            return "register";
-        }
+        // add this line then any user can be logined in
+        // if(!currentUser.isAuthenticated()){
+            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getName(), user.getPassword());
+            usernamePasswordToken.setRememberMe(true);
+            try {
+                currentUser.login(usernamePasswordToken);
+                log.debug("user "+user.getName()+" login, yes");
+            } catch(Exception e) {
+                // We are not facing too much errors
+                e.printStackTrace();
+                return "register";
+            }
+        // }
         return "login-success";
     }
 
     @PostMapping("register")
     @RequiresGuest
     public String register(@ModelAttribute("user") @Validated UserEntity userEntity, Model model) {
+        // needs to reconstruct a new user and role to staore back into db
         User user = new User();
         user.setName(userEntity.getName());
         user.setPassword(userEntity.getPassword());
         Role role = new Role();
         role.setName(userEntity.getName());
         role.setRole(userEntity.getRole());
+
         userService.save(user);
         userService.saveRole(role);
         // A better way to do is?
@@ -95,7 +100,7 @@ public class LoginController {
     @RequiresPermissions({"admin"})
     public String showUsers(Model model) {
         List<Role> roles = userService.findAll();
-
+       
         model.addAttribute("users", roles);
         return "index";
     }
