@@ -5,12 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.concurrent.TimeUnit;
+
 @Service
 public class UserRedisService {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
-    public void set(String name, String role){
+    public void set(String name, String role) {
         redisTemplate.opsForValue().set(name, role, 100, TimeUnit.SECONDS);
     }
 

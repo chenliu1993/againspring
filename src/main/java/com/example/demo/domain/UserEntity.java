@@ -3,7 +3,6 @@ package com.example.demo.domain;
 import lombok.Data;
 import org.springframework.stereotype.Repository;
 
-
 @Data
 @Repository
 public class UserEntity {
