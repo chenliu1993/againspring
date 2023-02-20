@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="ptn">%d{yyyy-MM-dd HH:mm:ss.SSS} p=%-5p c=%c t=%t C=%C F=%F M=%M L=%L m=%m %n</Property>
+        <Property name="dir_url">/home/vagrant/codes/againspring</Property>
+    </Properties>
+    <Appenders>
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout pattern="${ptn}" />
+		</Console>
+        <!-- <Console name="console" target="SYSTEM_ERR">
+            <JSONLayout complete="true" compact="false"/>
+        </Console> -->
+		<RollingFile name="errorfile" fileName="${dir_url}/log/log4j2_err.log"
+			filePattern="log/%d{yyyyMM}/log4j2_%d{yyyyMMddHHmmss}_%i_err.log">
+            <JsonLayout compact="true" locationInfo="true" complete="false" eventEol="true" />
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="20MB" />
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+			<DefaultRolloverStrategy max="10" />
+		</RollingFile>
+        <RollingFile name="outfile" fileName="${dir_url}/log/log4j2_out.log"
+			filePattern="log/%d{yyyyMM}/log4j2_%d{yyyyMMddHHmmss}_%i_out.log">
+            <JsonLayout compact="true" locationInfo="true" complete="false" eventEol="true" />
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="20MB" />
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+			<DefaultRolloverStrategy max="10" />
+		</RollingFile>
+	</Appenders>
+    <Loggers>
+		<Root level="TRACE">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="errfile" />
+            <AppenderRef ref="outfile" />
+		</Root>
+	</Loggers>
+</Configuration>
