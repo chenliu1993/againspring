@@ -6,12 +6,12 @@
         <Property name="dir_url">/home/vagrant/codes/againspring</Property>
     </Properties>
     <Appenders>
-		<Console name="console" target="SYSTEM_OUT">
+		<Console name="console_out" target="SYSTEM_OUT">
 			<PatternLayout pattern="${ptn}" />
 		</Console>
-        <!-- <Console name="console" target="SYSTEM_ERR">
-            <JSONLayout complete="true" compact="false"/>
-        </Console> -->
+		<Console name="console_err" target="SYSTEM_ERR">
+			<PatternLayout pattern="${ptn}" />
+		</Console>
 		<RollingFile name="errorfile" fileName="${dir_url}/log/log4j2_err.log"
 			filePattern="log/%d{yyyyMM}/log4j2_%d{yyyyMMddHHmmss}_%i_err.log">
             <JsonLayout compact="true" locationInfo="true" complete="false" eventEol="true" />
@@ -34,9 +34,16 @@
 		</RollingFile>
 	</Appenders>
     <Loggers>
-		<Root level="TRACE">
-			<AppenderRef ref="console" />
-			<AppenderRef ref="errfile" />
+		<AsyncLogger name="com.example.demo.controller.LoginController" level="debug" additivity="false">
+			<AppenderRef ref="console_out" />
+			<AppenderRef ref="console_err" />
+			<AppenderRef ref="errorfile" />
+			<AppenderRef ref="outfile" />
+        </AsyncLogger>
+		<Root level="info">
+			<AppenderRef ref="console_out" />
+			<AppenderRef ref="console_err" />
+			<AppenderRef ref="errorfile" />
             <AppenderRef ref="outfile" />
 		</Root>
 	</Loggers>
