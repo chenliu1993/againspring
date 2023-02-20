@@ -65,6 +65,8 @@ public class LoginController {
     @RequiresGuest
     public String login(@ModelAttribute("user") @Validated User user, BindingResult result, Model model) {
         log.debug("get user " + user.getName());
+        UserEntity userEntity = userService.findUserEntity(user.getName());
+        log.debug(String.format("get user name %s with role %s, his password is %s", userEntity.getName(), userEntity.getRole(), userEntity.getPassword()));
         if(result.hasErrors()){
             return "login";
         }
@@ -75,6 +77,7 @@ public class LoginController {
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getName(), user.getPassword());
         usernamePasswordToken.setRememberMe(true);
         try {
+            
             currentUser.login(usernamePasswordToken);
             log.debug("user " + user.getName() + " login, yes");
         } catch (Exception e) {
@@ -84,6 +87,7 @@ public class LoginController {
             return "register";
         }
         // }
+        
         return "redirect:/login-success";
     }
 

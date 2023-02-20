@@ -19,6 +19,9 @@ public class UserService {
     @Autowired
     private RoleMapper roleMapper;
 
+    @Autowired
+    private UserEntityMapper userEntityMapper;
+
     public User findOne(String name){
         return userMapper.findOne(name);
     }
@@ -54,5 +57,9 @@ public class UserService {
 
     public void deleteRole(Role role){
         roleMapper.deleteRole(role);    
+    }
+
+    public UserEntity findUserEntity(String name){
+        return userEntityMapper.findUserEntity(name);
     }
  }
