@@ -22,17 +22,17 @@ public class UserService {
     @Autowired
     private UserEntityMapper userEntityMapper;
 
-    public User findOne(String name){
+    public User findOne(String name) {
         return userMapper.findOne(name);
     }
 
-    public List<Role> findAll(){
+    public List<Role> findAll() {
         return roleMapper.findAll();
     }
 
     public String findRole(String name) {
         return roleMapper.findRole(name);
-    }    
+    }
 
     public String findPolicy(String role) {
         return policyMapper.findPolicy(role);
@@ -44,22 +44,23 @@ public class UserService {
 
     public void saveRole(Role role) throws RuntimeException {
         String policy = policyMapper.findPolicy(role.getRole());
-        if(policy==null){
-            throw new RuntimeException(String.format("the role %s for user %s doesn't exist", role.getRole(),role.getName()));
-        }else{
+        if (policy == null) {
+            throw new RuntimeException(
+                    String.format("the role %s for user %s doesn't exist", role.getRole(), role.getName()));
+        } else {
             roleMapper.saveRole(role);
         }
     }
 
-    public void delete(User user){
+    public void delete(User user) {
         userMapper.delete(user);
     }
 
-    public void deleteRole(Role role){
-        roleMapper.deleteRole(role);    
+    public void deleteRole(Role role) {
+        roleMapper.deleteRole(role);
     }
 
-    public UserEntity findUserEntity(String name){
+    public UserEntity findUserEntity(String name) {
         return userEntityMapper.findUserEntity(name);
     }
- }
+}

@@ -17,7 +17,8 @@ import org.slf4j.LoggerFactory;
 public class DemoApplication {
 	private static final Logger logger = LoggerFactory.getLogger(DemoApplication.class);
 
-	@Retryable(value = {CJCommunicationsException.class,SocketTimeoutException.class}, maxAttempts = 3, backoff = @Backoff(delay = 100))
+	@Retryable(value = { CJCommunicationsException.class,
+			SocketTimeoutException.class }, maxAttempts = 3, backoff = @Backoff(delay = 100))
 	public static void main(String[] args) {
 		logger.info("start demo...");
 		SpringApplication.run(DemoApplication.class, args);

@@ -26,7 +26,6 @@ import com.example.demo.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import java.util.*;
 
 @RequestMapping
@@ -43,8 +42,6 @@ public class LoginController {
 
     private User userPlaceholder = new User();
 
-
-   
     @GetMapping
     @RequiresGuest
     public String translate(Model model) {
@@ -61,7 +58,7 @@ public class LoginController {
         return "login-success";
     }
 
-     // Adding this then "Request Method GET NOt Allowd" goes away
+    // Adding this then "Request Method GET NOt Allowd" goes away
     @GetMapping("login")
     @RequiresGuest
     public String preCheckLogin(@ModelAttribute("user") User user, Model model) {
@@ -73,8 +70,9 @@ public class LoginController {
     @RequiresGuest
     public String login(@ModelAttribute("user") @Validated User user, BindingResult result, Model model) {
         UserEntity userEntity = userService.findUserEntity(user.getName());
-        logger.info(String.format("get user name %s with role %s, his password is %s", userEntity.getName(), userEntity.getRole(), userEntity.getPassword()));
-        if(result.hasErrors()){
+        logger.info(String.format("get user name %s with role %s, his password is %s", userEntity.getName(),
+                userEntity.getRole(), userEntity.getPassword()));
+        if (result.hasErrors()) {
             logger.debug(String.format("has smoe issues when binding the user infomation %s", user.getName()));
             return "login";
         }
@@ -85,7 +83,7 @@ public class LoginController {
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getName(), user.getPassword());
         usernamePasswordToken.setRememberMe(true);
         try {
-            
+
             currentUser.login(usernamePasswordToken);
             logger.debug("user " + user.getName() + " login, yes");
         } catch (Exception e) {
@@ -96,7 +94,7 @@ public class LoginController {
             return "register";
         }
         // }
-        
+
         return "redirect:/login-success";
     }
 
@@ -128,7 +126,7 @@ public class LoginController {
         try {
             logger.info("try to save the user info");
             userService.saveRole(role);
-        } catch(RuntimeException e){
+        } catch (RuntimeException e) {
             return e.toString();
         }
         // A better way to do is?
