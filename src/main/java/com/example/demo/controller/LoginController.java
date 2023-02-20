@@ -17,18 +17,23 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import lombok.extern.slf4j.Slf4j;
+// import lombok.extern.slf4j.Slf4j;
 
 import com.example.demo.service.UserService;
 import com.example.demo.service.UserRedisService;
 import com.example.demo.domain.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 import java.util.*;
 
 @RequestMapping
-@Slf4j
+// @Slf4j
 @Controller
 public class LoginController {
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
     UserService userService;
@@ -43,6 +48,7 @@ public class LoginController {
     @GetMapping
     @RequiresGuest
     public String translate(Model model) {
+        logger.info("add user attribute into login model");
         User user = new User();
         model.addAttribute(user);
         return "redirect:/login";
@@ -51,6 +57,7 @@ public class LoginController {
     @RequiresUser
     @GetMapping("login-success")
     public String loginSuccess() {
+        logger.info("successfully logged in");
         return "login-success";
     }
 
@@ -58,16 +65,17 @@ public class LoginController {
     @GetMapping("login")
     @RequiresGuest
     public String preCheckLogin(@ModelAttribute("user") User user, Model model) {
+        logger.info("seeing thr login page");
         return "login";
     }
 
     @PostMapping("login")
     @RequiresGuest
     public String login(@ModelAttribute("user") @Validated User user, BindingResult result, Model model) {
-        log.debug("get user " + user.getName());
         UserEntity userEntity = userService.findUserEntity(user.getName());
-        log.debug(String.format("get user name %s with role %s, his password is %s", userEntity.getName(), userEntity.getRole(), userEntity.getPassword()));
+        logger.info(String.format("get user name %s with role %s, his password is %s", userEntity.getName(), userEntity.getRole(), userEntity.getPassword()));
         if(result.hasErrors()){
+            logger.debug(String.format("has smoe issues when binding the user infomation %s", user.getName()));
             return "login";
         }
         Subject currentUser = SecurityUtils.getSubject();
@@ -79,11 +87,12 @@ public class LoginController {
         try {
             
             currentUser.login(usernamePasswordToken);
-            log.debug("user " + user.getName() + " login, yes");
+            logger.debug("user " + user.getName() + " login, yes");
         } catch (Exception e) {
             // We are not facing too much errors
             // e.printStackTrace();
             // register then, anybody can register
+            logger.error("something went wrong with the user %s", user.getName());
             return "register";
         }
         // }
@@ -104,12 +113,12 @@ public class LoginController {
     public String register(@ModelAttribute("user") @Validated UserEntity userEntity, Model model) {
         // needs to reconstruct a new user and role to store back into db
         User user = new User();
-        log.info(userEntity.getName() + " " + userEntity.getPassword());
+        logger.info(userEntity.getName() + " " + userEntity.getPassword());
         user.setName(userEntity.getName());
         user.setPassword(userEntity.getPassword());
 
         Role role = new Role();
-        log.info(userEntity.getName() + " " + userEntity.getRole());
+        logger.info(userEntity.getName() + " " + userEntity.getRole());
         role.setName(userEntity.getName());
         role.setRole(userEntity.getRole());
 
@@ -117,6 +126,7 @@ public class LoginController {
 
         userRedisService.set(user.getName(), role.getRole());
         try {
+            logger.info("try to save the user info");
             userService.saveRole(role);
         } catch(RuntimeException e){
             return e.toString();
@@ -146,6 +156,7 @@ public class LoginController {
     @RequiresPermissions({ "all" })
     @PostMapping("index/{name}")
     public String delete(@PathVariable String name) {
+        logger.info("deleting the user %s", name);
         User user = userService.findOne(name);
         String roles = userService.findRole(name);
         Role role = new Role();
@@ -153,6 +164,7 @@ public class LoginController {
         role.setRole(roles);
         userService.delete(user);
         userService.deleteRole(role);
+        logger.info("user %s successfully deleted", name);
         return "redirect:/index";
     }
 }
