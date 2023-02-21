@@ -1,7 +1,3 @@
-def writeGitHubPullRequestStatus(text, state) {
-    setGitHubPullRequestStatus context: 'Jenkins', message: text, state: state
-}
-
 pipeline {
     agent any
     environment {
@@ -21,7 +17,6 @@ pipeline {
                 expression { "${GITHUB_PR_STATE}" == 'OPEN' }
             }
             steps {
-                // 
                 echo 'Checkout codes'
                 checkout([$class: 'GitSCM',
                     branches: [[name: '${GITHUB_PR_SOURCE_BRANCH}']],
@@ -39,11 +34,13 @@ pipeline {
     post {
         success {
             echo 'Unit tests succeed, clean up the environment'
-            writeGitHubPullRequestStatus('Job finished', 'SUCCESS')
+            setGitHubPullRequestStatus context: 'againspring-unit-test', message: 'Unit test succeed', state: 'SUCCESS'
+            githubPRComment comment: githubPRMessage('SpringBoot Sample Unit Test Success.'), statusVerifier: allowRunOnStatus('SUCCESS'), errorHandler: statusOnPublisherError('UNSTABLE')
         }
         failure {
             echo 'Unit tests failed, clean up the environment'
-            writeGitHubPullRequestStatus('Job finished', 'FAILURE')
+            setGitHubPullRequestStatus context: 'againspring-unit-test', message: 'Unit test fail', state: 'FAILURE'
+            githubPRComment comment: githubPRMessage('SpringBoot Sample Unit Test failed.'), statusVerifier: allowRunOnStatus('FAILURE'), errorHandler: statusOnPublisherError('UNSTABLE')
         }
         always {
             deleteDir()
