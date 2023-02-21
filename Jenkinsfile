@@ -21,9 +21,10 @@ pipeline {
                 expression { "${GITHUB_PR_STATE}" == 'OPEN' }
             }
             steps {
+                // 
                 echo 'Checkout codes'
                 checkout([$class: 'GitSCM',
-                    branches: [[name: '*/pull/${GITHUB_PR_NUMBER}/head']],
+                    branches: [[name: '${GITHUB_PR_SOURCE_BRANCH}']],
                     userRemoteConfigs: [[credentialsId:  'dce2dba9-82cc-4355-9a92-f5dc2049b45b', url: 'git@github.com:chenliu1993/againspring.git']]])
             // sh 'git checkout ${GITHUB_PR_SOURCE_BRANCH}'
             }
