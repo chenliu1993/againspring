@@ -1,3 +1,7 @@
+def writeGitHubPullRequestStatus(text, state) {
+    setGitHubPullRequestStatus context: 'Jenkins', message: text, state: state
+}
+
 pipeline {
     agent any
     environment {
@@ -13,10 +17,13 @@ pipeline {
             }
         }
         stage('Checkout codes') {
+            when {
+                expression { "${GITHUB_PR_STATE}" == 'OPEN' }
+            }
             steps {
                 echo 'Checkout codes'
                 checkout([$class: 'GitSCM',
-                    branches: [[name: '${GITHUB_PR_SOURCE_BRANCH}']],
+                    branches: [[name: '*/pull/${GITHUB_PR_NUMBER}/head']],
                     userRemoteConfigs: [[credentialsId:  'dce2dba9-82cc-4355-9a92-f5dc2049b45b', url: 'git@github.com:chenliu1993/againspring.git']]])
             // sh 'git checkout ${GITHUB_PR_SOURCE_BRANCH}'
             }
@@ -31,16 +38,14 @@ pipeline {
     post {
         success {
             echo 'Unit tests succeed, clean up the environment'
-            setGitHubPullRequestStatus context: 'againspring-unit-test', message: 'Unit test succeed', state: 'SUCCESS'
-            githubPRComment comment: githubPRMessage('SpringBoot Sample Unit Test Success.'), statusVerifier: allowRunOnStatus("SUCCESS"), errorHandler: statusOnPublisherError("UNSTABLE")
-
+            writeGitHubPullRequestStatus('Job finished', 'SUCCESS')
         }
         failure {
             echo 'Unit tests failed, clean up the environment'
-            setGitHubPullRequestStatus context: 'againspring-unit-test', message: 'Unit test fail', state: 'FAILURE'
-            githubPRComment comment: githubPRMessage('SpringBoot Sample Unit Test failed.'), statusVerifier: allowRunOnStatus("FAILURE"), errorHandler: statusOnPublisherError("UNSTABLE")
+            writeGitHubPullRequestStatus('Job finished', 'FAILURE')
         }
         always {
             deleteDir()
         }
     }
+}
