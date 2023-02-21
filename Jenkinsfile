@@ -21,7 +21,6 @@ pipeline {
                 expression { "${GITHUB_PR_STATE}" == 'OPEN' }
             }
             steps {
-                // 
                 echo 'Checkout codes'
                 checkout([$class: 'GitSCM',
                     branches: [[name: '${GITHUB_PR_SOURCE_BRANCH}']],
