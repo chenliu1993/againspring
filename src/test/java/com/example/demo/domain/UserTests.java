@@ -24,15 +24,15 @@ public class UserTests {
 
     @Test
     void TestFindOne() throws Exception {
-        User user = new User();
-        user.setId(Long.valueOf("1"));
-        user.setName("root");
-        user.setPassword("root");
+        User expectedUser = new User();
+        expectedUser.setId(Long.valueOf("1"));
+        expectedUser.setName("root");
+        expectedUser.setPassword("root");
 
         // stored user
-        User oldUser = userMapper.findOne(user.getName());
-        assertThat(oldUser.getId()).isEqualTo(user.getId());
-        assertThat(oldUser.getName()).isEqualTo(user.getName());
-        assertThat(oldUser.getPassword()).isEqualTo(user.getPassword());
+        User actualUser = userMapper.findOne(expectedUser.getName());
+        assertThat(actualUser.getId()).isEqualTo(expectedUser.getId());
+        assertThat(actualUser.getName()).isEqualTo(expectedUser.getName());
+        assertThat(actualUser.getPassword()).isEqualTo(expectedUser.getPassword());
     }
 }

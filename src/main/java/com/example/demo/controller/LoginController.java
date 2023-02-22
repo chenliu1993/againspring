@@ -69,9 +69,18 @@ public class LoginController {
     @PostMapping("login")
     @RequiresGuest
     public String login(@ModelAttribute("user") @Validated User user, BindingResult result, Model model) {
-        UserEntity userEntity = userService.findUserEntity(user.getName());
-        logger.info(String.format("get user name %s with role %s, his password is %s", userEntity.getName(),
-                userEntity.getRole(), userEntity.getPassword()));
+        // TODO: No use codes, just for testing model will remove one day
+        UserEntity userEntity;
+        try {
+            userEntity = userService.findUserEntity(user.getName());
+            logger.info(String.format("get user name %s with role %s, his password is %s", userEntity.getName(),
+                    userEntity.getRole(), userEntity.getPassword()));
+        } catch (NullPointerException e) {
+            logger.error("no such user %s", user.getName());
+
+            return "login";
+        }
+
         if (result.hasErrors()) {
             logger.debug(String.format("has smoe issues when binding the user infomation %s", user.getName()));
             return "login";
