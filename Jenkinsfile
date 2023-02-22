@@ -27,12 +27,15 @@ pipeline {
         stage('PR Unit Test') {
             steps {
                 echo 'Start Unit Test'
+                sh 'mvn clean install'
+                sh 'mvn compile'
                 sh 'mvn test'
             }
         }
     }
     post {
         success {
+            //
             echo 'Unit tests succeed, clean up the environment'
             setGitHubPullRequestStatus context: 'againspring-unit-test', message: 'Unit test succeed', state: 'SUCCESS'
             githubPRComment comment: githubPRMessage('SpringBoot Sample Unit Test Success.'), statusVerifier: allowRunOnStatus('SUCCESS'), errorHandler: statusOnPublisherError('UNSTABLE')
