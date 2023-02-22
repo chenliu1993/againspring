@@ -27,6 +27,8 @@ pipeline {
         stage('PR Unit Test') {
             steps {
                 echo 'Start Unit Test'
+                sh 'mvn clean install'
+                sh 'mvn compile'
                 sh 'mvn test'
             }
         }
