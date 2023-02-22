@@ -21,6 +21,7 @@ public class UserTests {
 
     @Autowired
     private UserMapper userMapper;
+    
 
     @Test
     void TestFindOne() throws Exception {
