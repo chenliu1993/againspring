@@ -56,17 +56,15 @@ public class LoginControllerTests {
                 .param("password", "root")).andDo(print()).andExpect(status().is3xxRedirection());
     }
 
-    /*
-     * @Test
-     * void TestLoginWithUnKnownUser() throws Exception {
-     * // Fake one user input
-     * // if known user should just 200
-     * mvc.perform(MockMvcRequestBuilders.post("/login")
-     * .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-     * .param("name", "test")
-     * .param("password", "test")).andDo(print()).andExpect(status().isOk());
-     * }
-     */
+    @Test
+    void TestLoginWithUnKnownUser() throws Exception {
+        // Fake one user input
+        // if known user should just 200
+        mvc.perform(MockMvcRequestBuilders.post("/login")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .param("name", "test")
+                .param("password", "test")).andDo(print()).andExpect(status().isOk()).andReturn();
+    }
 
     @Test
     void TestDelete() throws Exception {
