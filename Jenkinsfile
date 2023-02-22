@@ -21,7 +21,6 @@ pipeline {
                 checkout([$class: 'GitSCM',
                     branches: [[name: '${GITHUB_PR_SOURCE_BRANCH}']],
                     userRemoteConfigs: [[credentialsId:  'dce2dba9-82cc-4355-9a92-f5dc2049b45b', url: 'git@github.com:chenliu1993/againspring.git']]])
-            // sh 'git checkout ${GITHUB_PR_SOURCE_BRANCH}'
             }
         }
         stage('PR Unit Test') {
