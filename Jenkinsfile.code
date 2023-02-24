@@ -25,10 +25,11 @@ pipeline {
             }
         }
         stage('SonarQube analysis') {
-
-            def sonarqubeScannerHome = tool name: 'SonarQube Scanner'
-            withSonarQubeEnv('MySonarQube') {
-                sh "${sonarqubeScannerHome}/bin/sonar-scanner"
+            steps {
+                def sonarqubeScannerHome = tool name: 'SonarQube Scanner'
+                withSonarQubeEnv('MySonarQube') {
+                    sh "${sonarqubeScannerHome}/bin/sonar-scanner"
+                }
             }
         }
     }
