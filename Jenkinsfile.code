@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        JOB_NAME = 'againspring-unit-test'
+        JOB_NAME = 'againspring-code-scan'
     }
 
     stages {
@@ -25,6 +25,7 @@ pipeline {
             }
         }
         stage('SonarQube analysis') {
+
             def sonarqubeScannerHome = tool name: 'SonarQube Scanner'
             withSonarQubeEnv('MySonarQube') {
                 sh "${sonarqubeScannerHome}/bin/sonar-scanner"
@@ -35,13 +36,13 @@ pipeline {
         success {
             //
             echo 'Unit tests succeed, clean up the environment'
-            setGitHubPullRequestStatus context: 'againspring-unit-test', message: 'Unit test succeed', state: 'SUCCESS'
-            githubPRComment comment: githubPRMessage('SpringBoot Sample Unit Test Success.'), statusVerifier: allowRunOnStatus('SUCCESS'), errorHandler: statusOnPublisherError('UNSTABLE')
+            setGitHubPullRequestStatus context: 'againspring-code-scan', message: 'Code check succeed', state: 'SUCCESS'
+            githubPRComment comment: githubPRMessage('SpringBoot Sample Code Check Success.'), statusVerifier: allowRunOnStatus('SUCCESS'), errorHandler: statusOnPublisherError('UNSTABLE')
         }
         failure {
             echo 'Unit tests failed, clean up the environment'
-            setGitHubPullRequestStatus context: 'againspring-unit-test', message: 'Unit test fail', state: 'FAILURE'
-            githubPRComment comment: githubPRMessage('SpringBoot Sample Unit Test failed.'), statusVerifier: allowRunOnStatus('FAILURE'), errorHandler: statusOnPublisherError('UNSTABLE')
+            setGitHubPullRequestStatus context: 'againspring-code-scan', message: 'Code check fail', state: 'FAILURE'
+            githubPRComment comment: githubPRMessage('SpringBoot Sample Code Check failed.'), statusVerifier: allowRunOnStatus('FAILURE'), errorHandler: statusOnPublisherError('UNSTABLE')
         }
         always {
             deleteDir()
