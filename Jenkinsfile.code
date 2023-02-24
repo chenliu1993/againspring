@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        JOB_NAME = 'againspring-unit-test'
+        JOB_NAME = 'againspring-code-scan'
     }
 
     stages {
@@ -25,7 +25,7 @@ pipeline {
             }
         }
         stage('SonarQube analysis') {
-            
+
             def sonarqubeScannerHome = tool name: 'SonarQube Scanner'
             withSonarQubeEnv('MySonarQube') {
                 sh "${sonarqubeScannerHome}/bin/sonar-scanner"
