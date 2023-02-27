@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 // import lombok.extern.slf4j.Slf4j;
 
 import com.example.demo.service.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+// import com.fasterxml.jackson.databind.ObjectMapper;
 
-import lombok.Data;
+// import lombok.Data;
 
 import com.example.demo.service.UserRedisService;
 import com.example.demo.domain.*;
@@ -46,24 +46,6 @@ public class LoginController {
     UserRedisService userRedisService;
 
     private User userPlaceholder = new User();
-
-    @RequiresGuest
-    @GetMapping("/jackson")
-    public String jackson() {
-        File file = new File("employee.json");
-        ObjectMapper mapper = new ObjectMapper();
-        Employee employee;
-        try {
-            employee = mapper.readValue(file, Employee.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Woops, error happens";
-        }
-
-        String info = "Id is" + employee.getId() + " name is" + employee.getName() + "\n";
-        logger.info(info);
-        return info;
-    }
 
     @GetMapping
     @RequiresGuest
@@ -198,12 +180,29 @@ public class LoginController {
         return "redirect:/index";
     }
 
-    // Just try jackson
-
+   /*  // Just try jackson
     @Data
     public class Employee {
         private String id;
         private String name;
     }
+
+    @RequiresGuest
+    @GetMapping("/jackson")
+    public String jackson() {
+        File file = new File("employee.json");
+        ObjectMapper mapper = new ObjectMapper();
+        Employee employee;
+        try {
+            employee = mapper.readValue(file, Employee.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Woops, error happens";
+        }
+
+        String info = "Id is" + employee.getId() + " name is" + employee.getName() + "\n";
+        logger.info(info);
+        return info;
+    } */
 
 }
