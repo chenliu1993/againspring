@@ -35,13 +35,6 @@
 		</RollingFile>
 	</Appenders>
 	<Loggers>
-		<!-- <AsyncLogger name="com.example.demo.controller.LoginController" level="debug"
-		additivity="false">
-			<AppenderRef ref="console_out" />
-			<AppenderRef ref="console_err" />
-			<AppenderRef ref="errorfile" />
-			<AppenderRef ref="outfile" />
-        </AsyncLogger> -->
 		<Root level="info">
 			<AppenderRef ref="console_out" />
 			<AppenderRef ref="console_err" />

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 
 <head>
     <meta charset="UTF-8">
@@ -24,7 +24,10 @@
         </div>
         <form th:action="@{/}" th:method="get" th:object="${user}">
             <div class="form-group row">
-                <table class="table table-striped">
+                <table class="table table-striped" aria-describedby="register-success page">
+                    <tr>
+                        <th>好きにしろ</th>
+                    </tr>
                     <thead>
                         <tr>
                             <td style="width: 50%">ユーザー名前</td>

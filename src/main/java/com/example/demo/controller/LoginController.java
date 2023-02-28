@@ -17,8 +17,6 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.web.bind.annotation.PathVariable;
 
-// import lombok.extern.slf4j.Slf4j;
-
 import com.example.demo.service.UserService;
 import com.example.demo.service.UserRedisService;
 import com.example.demo.domain.*;
@@ -33,6 +31,7 @@ import java.util.*;
 @Controller
 public class LoginController {
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+    private static final String LOGIN_PAGE = "login";
 
     @Autowired
     UserService userService;
@@ -63,7 +62,7 @@ public class LoginController {
     @RequiresGuest
     public String preCheckLogin(@ModelAttribute("user") User user, Model model) {
         logger.info("seeing thr login page");
-        return "login";
+        return LOGIN_PAGE;
     }
 
     @PostMapping("login")
@@ -78,17 +77,15 @@ public class LoginController {
         } catch (NullPointerException e) {
             logger.error("no such user %s", user.getName());
 
-            return "login";
+            return LOGIN_PAGE;
         }
 
         if (result.hasErrors()) {
             logger.debug(String.format("has smoe issues when binding the user infomation %s", user.getName()));
-            return "login";
+            return LOGIN_PAGE;
         }
         Subject currentUser = SecurityUtils.getSubject();
 
-        // add this line then any user can be logined in
-        // if(!currentUser.isAuthenticated()){
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getName(), user.getPassword());
         usernamePasswordToken.setRememberMe(true);
         try {
@@ -96,24 +93,12 @@ public class LoginController {
             currentUser.login(usernamePasswordToken);
             logger.debug("user " + user.getName() + " login, yes");
         } catch (Exception e) {
-            // We are not facing too much errors
-            // e.printStackTrace();
-            // register then, anybody can register
             logger.error("something went wrong with the user %s", user.getName());
             return "register";
         }
-        // }
 
         return "redirect:/login-success";
     }
-
-    // @GetMapping("register")
-    // @RequiresGuest
-    // public String bindEntity(Model model) {
-    // UserEntity userEntity = new UserEntity();
-    // model.addAttribute("userEntity", userEntity);
-    // return "register";
-    // }
 
     @PostMapping("register")
     @RequiresGuest

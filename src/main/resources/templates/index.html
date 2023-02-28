@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 
 <head>
     <meta charset="UTF-8">
@@ -26,7 +26,7 @@
             <div class="card-body" th:if="!${users.size()}">
                 <p>ユーザーがありません。</p>
             </div>
-            <table class="table table-striped" th:if="${users.size()}">
+            <table class="table table-striped" aria-describedby="index page" th:if="${users.size()}">
                 <thead>
                     <tr>
                         <th style="width: 50%">ユーザー名</th>
