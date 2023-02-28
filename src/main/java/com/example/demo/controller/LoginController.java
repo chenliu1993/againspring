@@ -96,7 +96,6 @@ public class LoginController {
             logger.error("something went wrong with the user %s", user.getName());
             return "register";
         }
-        // }
 
         return "redirect:/login-success";
     }

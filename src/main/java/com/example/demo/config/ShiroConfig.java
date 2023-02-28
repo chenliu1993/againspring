@@ -18,7 +18,7 @@ public class ShiroConfig {
 
     private static final String AUTHC = "authc";
 
-    @Deprecated(forRemoval=true)
+    @Deprecated(forRemoval = true)
     @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(
             @Qualifier("securityManager") SecurityManager securityManager) {
@@ -45,7 +45,7 @@ public class ShiroConfig {
         return shiroFilterFactoryBean;
     }
 
-    @Deprecated(forRemoval=true)
+    @Deprecated(forRemoval = true)
     @Bean(name = "securityManager")
     public SecurityManager securityManager(@Qualifier("shiroRealm") ShiroRealm shiroRealm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
@@ -60,12 +60,11 @@ public class ShiroConfig {
 
     @Bean
     public ShiroRealm shiroRealm() {
-        ShiroRealm shiroRealm = new ShiroRealm();
-        return shiroRealm;
+        return new ShiroRealm();
     }
 
     // Enable annotation mode
-    @Deprecated(forRemoval=true)
+    @Deprecated(forRemoval = true)
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(
             @Qualifier("securityManager") SecurityManager securityManager) {
