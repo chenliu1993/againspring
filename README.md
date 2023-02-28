@@ -8,3 +8,4 @@ To learn spring
 1. Understand test framework like junit and its usage
 1. jackson json plugin
 1. log4j2 more details
+1. SonarQube
