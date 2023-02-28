@@ -1,26 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.RoleMapper">
-	<!-- <resultMap id="RoleList" type="com.example.demo.domain.Role">
-		<id column="id" jdbcType="BIGINT" property="id"/>
-		<result column="name" jdbcType="VARCHAR" property="name"/>
-		<result column="role" jdbcType="VARCHAR" property="role"/>
-	</resultMap> -->
-	<select id="findAll" resultType="com.example.demo.domain.Role">
-		select * from sysuser
-	</select>
 
-	<select id="findRole" resultType="string">
-		select role from sysuser where name=#{name}
-	</select>
+	<select id="findAll" resultType="com.example.demo.domain.Role"> select * from sysuser </select>
 
-	
-	<insert id="saveRole" useGeneratedKeys="true" keyProperty="id">
-		insert ignore into sysuser(name, role) values(#{name}, #{role})
-	</insert>
-	
+	<select id="findRole" resultType="string"> select role from sysuser where name=#{name} </select>
 
-	<delete id="deleteRole">
-		delete from sysuser where name=#{name}
-	</delete>
+
+	<insert id="saveRole" useGeneratedKeys="true" keyProperty="id"> insert ignore into sysuser(name,
+		role) values(#{name}, #{role}) </insert>
+
+
+	<delete id="deleteRole"> delete from sysuser where name=#{name} </delete>
 </mapper>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 
 <head>
     <meta charset="UTF-8">
@@ -40,11 +40,13 @@
                                 <div class="text-danger" th:if="${#fields.hasErrors('password')}"
                                     th:errors="*{password}"></div>
                             </div>
-                            <table class="table table-striped">
+                            <table class="table table-striped" aria-describedby="login button">
+                                <tr>
+                                    <th>どうぞ</th>
+                                </tr>
                                 <thead>
                                     <tr>
                                         <button class="btn btn-primary">ログイン</button>
-                                        <!-- <button class="btn btn-primary">新規登録</button> -->
                                     </tr>
                                 </thead>
                             </table>

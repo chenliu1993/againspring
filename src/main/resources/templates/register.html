@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 
 <head>
     <meta charset="UTF-8">
@@ -33,23 +33,22 @@
                         <Label class="col-md-2 control-label">ユーザー名前</Label>
                         <div class="col-md-10">
                             <input class="form-control" type="text" th:field="*{name}">
-                            <!-- <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>" -->
                         </div>
                         <div class="col-md-10">
                             <Label class="col-md-5 control-label">ユーザーパスワード</Label>
                             <input class="form-control" type="password" th:field="*{password}">
-                            <!-- <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>" -->
                         </div>
                         <div class="col-md-10">
                             <Label class="col-md-5 control-label">ユーザーロール</Label>
                             <input class="form-control" type="text" th:field="*{role}">
-                            <!-- <div class="text-danger" th:if="${#fields.hasErrors('role')}" th:errors="*{password}"></div>" -->
                         </div>
-                        <table class="table table-striped">
+                        <table class="table table-striped" aria-describedby="新規登録">
                             <thead>
                                 <tr>
+                                    <th>button</th>
+                                </tr>
+                                <tr>
                                     <button class="btn btn-primary">新規</button>
-                                    <!-- <button class="btn btn-primary">新規登録</button> -->
                                 </tr>
                             </thead>
                         </table>

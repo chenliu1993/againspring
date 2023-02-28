@@ -16,6 +16,9 @@ import java.util.LinkedHashMap;
 @Configuration
 public class ShiroConfig {
 
+    private static final String AUTHC = "authc";
+
+    @Deprecated(forRemoval=true)
     @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(
             @Qualifier("securityManager") SecurityManager securityManager) {
@@ -30,18 +33,19 @@ public class ShiroConfig {
         // Must have error.html in advance
         filterChainDefinitionMap.put("/", "anon");
         filterChainDefinitionMap.put("/login", "anon");
-        filterChainDefinitionMap.put("/login-success", "authc");
+        filterChainDefinitionMap.put("/login-success", AUTHC);
         filterChainDefinitionMap.put("/register", "anon");
-        filterChainDefinitionMap.put("/register-success", "authc");
-        filterChainDefinitionMap.put("/index", "authc");
-        filterChainDefinitionMap.put("/index/**", "authc");
-        filterChainDefinitionMap.put("/**", "authc");
+        filterChainDefinitionMap.put("/register-success", AUTHC);
+        filterChainDefinitionMap.put("/index", AUTHC);
+        filterChainDefinitionMap.put("/index/**", AUTHC);
+        filterChainDefinitionMap.put("/**", AUTHC);
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
         return shiroFilterFactoryBean;
     }
 
+    @Deprecated(forRemoval=true)
     @Bean(name = "securityManager")
     public SecurityManager securityManager(@Qualifier("shiroRealm") ShiroRealm shiroRealm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
@@ -61,6 +65,7 @@ public class ShiroConfig {
     }
 
     // Enable annotation mode
+    @Deprecated(forRemoval=true)
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(
             @Qualifier("securityManager") SecurityManager securityManager) {
