@@ -59,6 +59,7 @@ public class LoginController {
 
     // Adding this then "Request Method GET NOt Allowd" goes away
     @GetMapping("login")
+    // This part forbids the root access allows the guest
     @RequiresGuest
     public String preCheckLogin(@ModelAttribute("user") User user, Model model) {
         logger.info("seeing thr login page");
