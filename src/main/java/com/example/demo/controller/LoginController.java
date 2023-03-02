@@ -18,6 +18,10 @@ import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.demo.service.UserService;
+// import com.fasterxml.jackson.databind.ObjectMapper;
+
+// import lombok.Data;
+
 import com.example.demo.service.UserRedisService;
 import com.example.demo.domain.*;
 
@@ -25,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.io.File;
 
 @RequestMapping
 // @Slf4j
@@ -160,4 +165,30 @@ public class LoginController {
         logger.info("user %s successfully deleted", name);
         return "redirect:/index";
     }
+
+   /*  // Just try jackson
+    @Data
+    public class Employee {
+        private String id;
+        private String name;
+    }
+
+    @RequiresGuest
+    @GetMapping("/jackson")
+    public String jackson() {
+        File file = new File("employee.json");
+        ObjectMapper mapper = new ObjectMapper();
+        Employee employee;
+        try {
+            employee = mapper.readValue(file, Employee.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Woops, error happens";
+        }
+
+        String info = "Id is" + employee.getId() + " name is" + employee.getName() + "\n";
+        logger.info(info);
+        return info;
+    } */
+
 }
