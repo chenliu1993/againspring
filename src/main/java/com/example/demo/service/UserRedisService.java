@@ -12,10 +12,10 @@ public class UserRedisService {
     private StringRedisTemplate redisTemplate;
 
     public void set(String name, String role, Long expiredTime) {
-        if(expiredTime!=0) {
+        if (expiredTime > 0) {
             // Only seconds
-            redisTemplate.opsForValue().set(name, role,expiredTime,TimeUnit.SECONDS);
-        }else{
+            redisTemplate.opsForValue().set(name, role, expiredTime, TimeUnit.SECONDS);
+        } else {
             redisTemplate.opsForValue().set(name, role);
         }
     }
