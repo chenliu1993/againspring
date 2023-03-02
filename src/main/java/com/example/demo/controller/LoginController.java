@@ -117,7 +117,7 @@ public class LoginController {
 
         userService.save(user);
 
-        userRedisService.set(user.getName(), role.getRole());
+        userRedisService.set(user.getName(), role.getRole(), Long.valueOf(5));
         try {
             logger.info("try to save the user info");
             userService.saveRole(role);

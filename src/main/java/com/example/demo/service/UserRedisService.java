@@ -11,11 +11,20 @@ public class UserRedisService {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
-    public void set(String name, String role) {
-        redisTemplate.opsForValue().set(name, role, 100, TimeUnit.SECONDS);
+    public void set(String name, String role, Long expiredTime) {
+        if (expiredTime > 0) {
+            // Only seconds
+            redisTemplate.opsForValue().set(name, role, expiredTime, TimeUnit.SECONDS);
+        } else {
+            redisTemplate.opsForValue().set(name, role);
+        }
     }
 
     public Object get(String name) {
         return redisTemplate.opsForValue().get(name);
+    }
+
+    public void delete(String name) {
+        redisTemplate.delete(name);
     }
 }
